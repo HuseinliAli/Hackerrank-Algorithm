@@ -1,92 +1,53 @@
-﻿using System;
+﻿using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
 
-namespace MyApp // Note: actual namespace depends on the project name.
+class Result
 {
-    internal class Program
+
+    /*
+     * Complete the 'simpleArraySum' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts INTEGER_ARRAY ar as parameter.
+     */
+    public static int simpleArraySum(List<int> ar)
     {
-        static void Main(string[] args)
+        int sumOfElements = 0;
+        for (int i = 0; i<ar.Count; i++)
         {
-            int measure;
-            int[] arr;
-            InputArray(out measure, out arr); 
-            SelectionSort(measure, arr); 
-            Output(measure, arr); Console.WriteLine();
-            BubbleSort(measure, arr); 
-            Output(measure, arr); Console.WriteLine();
-            InsertionSort(measure, arr); 
-            Output(measure, arr); Console.WriteLine();
+            sumOfElements+=ar[i];
         }
+        return sumOfElements;
+    }
 
-        private static void InsertionSort(int measure, int[] arr)
-        {
-            Console.WriteLine("Insertion Sort: ");
-            for (int i = 1; i<measure; i++)
-            {
-                int key = arr[i];
-                int j = i-1;
-                while (j >=0&&arr[j]>key)
-                {
-                    arr[j+1]=arr[j];
-                    j=j-1;
-                }
-                arr[j+1]=key;
-            }
-        }
+}
 
-        private static void BubbleSort(int measure, int[] arr)
-        {
-            Console.WriteLine("Bubble Sort: ");
-            for (int i = 0; i <measure-1; i++)
-            {
-                for (int j = 0; j<measure-1-i; i++)
-                {
-                    if (arr[j]>arr[j+1])
-                    {
-                        int temp = arr[j];
-                        arr[j] = arr[j+1];
-                        arr[j+1] = temp;
-                    }
-                }
-            }
-        }
+class Solution
+{
+    public static void Main(string[] args)
+    {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
 
-        private static void Output(int measure, int[] arr)
-        {
-            for (int i = 0; i<measure; i++)
-            {
-                Console.Write(arr[i]+" ");
-            }
-        }
+        int arCount = Convert.ToInt32(Console.ReadLine().Trim());
 
-        private static void SelectionSort(int measure, int[] arr)
-        {
-            Console.WriteLine("Selection Sort: ");
-            for (int i = 0; i <measure; i++)
-            {
-                int min = i;
-                for (int j = i + 1; j < measure; j++)
-                {
-                    if (arr[j] < arr[min])
-                    {
-                        min = j;
-                    }
-                }
-                int temp = arr[min];
-                arr[min] = arr[i];
-                arr[i] = temp;
-            }
-        }
+        List<int> ar = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(arTemp => Convert.ToInt32(arTemp)).ToList();
 
-        private static void InputArray(out int measure, out int[] arr)
-        {
-            Console.Write("Size Of Array: ");
-            measure=int.Parse(Console.ReadLine());
-            Console.WriteLine("Array: ");
-            arr=new int[measure];
-            for (int i = 0; i <measure; i++)
-            {
-                arr[i]=int.Parse(Console.ReadLine());
-            }
-        }
+        int result = Result.simpleArraySum(ar);
+
+        textWriter.WriteLine(result);
+
+        textWriter.Flush();
+        textWriter.Close();
     }
 }
